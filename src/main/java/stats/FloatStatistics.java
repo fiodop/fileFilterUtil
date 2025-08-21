@@ -2,20 +2,35 @@ package stats;
 
 import lombok.Data;
 
+import java.util.HashMap;
+
 @Data
-public class DoubleStatistics {
+public class FloatStatistics {
     private int counter = 0;
-    private double min = Double.MAX_VALUE;
-    private double max = Double.MIN_VALUE;
-    private double average = Double.NaN;
+    private float min = Float.MAX_VALUE;
+    private float max = Float.MIN_VALUE;
+    private float average = Float.NaN;
     private double sum = 0;
 
-    public void addValue(double value) {
+    public void addValue(float value) {
         sum += value;
         counter++;
         min = Math.min(min, value);
         max = Math.max(max, value);
-        average = sum / counter;
+        average = (float) (sum / counter);
     }
 
+    /**
+     * Метод для получения полной статистики по float
+     * @return HashMap<String, Object> String - название статистического поля, Object - значение
+     */
+    public HashMap<String, Object> getFullStatistics() {
+        HashMap<String, Object> fullStats = new HashMap<>();
+        fullStats.put("min", min);
+        fullStats.put("max", max);
+        fullStats.put("average", average);
+        fullStats.put("sum", sum);
+        fullStats.put("counter", counter);
+        return fullStats;
+    }
 }

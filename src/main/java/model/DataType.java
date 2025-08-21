@@ -1,4 +1,5 @@
 package model;
 
-public class DataType {
+public enum DataType {
+    INTEGER, FLOAT, STRING
 }
