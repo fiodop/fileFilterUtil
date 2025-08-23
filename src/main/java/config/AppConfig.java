@@ -1,7 +1,7 @@
 package config;
 
 import lombok.Data;
-import stats.StatsMode;
+import model.StatsMode;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 @Data
 public class AppConfig {
-    ArrayList<Path> inputFiles;
+    ArrayList<Path> inputFiles = new ArrayList<>();
     Path outputDirection = Paths.get(".");
     String prefix = "";
     boolean appendMode = false;

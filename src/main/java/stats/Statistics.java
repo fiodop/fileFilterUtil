@@ -1,6 +1,7 @@
 package stats;
 
 import lombok.Data;
+import model.DataBucket;
 import model.DataType;
 
 import java.util.ArrayList;
@@ -8,10 +9,14 @@ import java.util.HashMap;
 
 @Data
 public class Statistics {
-    private IntegerStatistics integerStatistics;
-    private FloatStatistics floatStatistics;
-    private StringStatistics stringStatistics;
+    private DataBucket dataBucket;
+    private IntegerStatistics integerStatistics = new IntegerStatistics();
+    private FloatStatistics floatStatistics = new FloatStatistics();
+    private StringStatistics stringStatistics = new StringStatistics();
 
+    public Statistics(DataBucket dataBucket) {
+        this.dataBucket = dataBucket;
+    }
 
     /**
      * Метод для получения короткой статистики

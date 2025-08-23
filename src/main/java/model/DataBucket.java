@@ -1,29 +1,31 @@
 package model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import stats.FloatStatistics;
 import stats.IntegerStatistics;
 import stats.StringStatistics;
 
+import java.util.ArrayList;
 import java.util.List;
-@AllArgsConstructor
+@Data
 public class DataBucket {
-    private List<Integer> longList;
-    private List<Float> doubleList;
-    private List<String> stringList;
+    private List<Integer> integerList = new ArrayList<>();
+    private List<Float> floatList = new ArrayList<>();
+    private List<String> stringList = new ArrayList<>();
 
-    private IntegerStatistics integerStatistics;
-    private FloatStatistics floatStatistics;
-    private StringStatistics stringStatistics;
+    private IntegerStatistics integerStatistics = new IntegerStatistics();
+    private FloatStatistics floatStatistics = new FloatStatistics();
+    private StringStatistics stringStatistics = new StringStatistics();
 
 
     public void addToIntegerList(int number) {
-        longList.add(number);
+        integerList.add(number);
         integerStatistics.addValue(number);
     }
 
     public void addToFloatList(float number){
-        doubleList.add(number);
+        floatList.add(number);
         floatStatistics.addValue(number);
     }
 

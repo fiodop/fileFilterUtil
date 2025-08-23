@@ -1,27 +1,32 @@
+package app;
+
 import config.AppConfig;
-import stats.StatsMode;
+import model.StatsMode;
+import service.FilterService;
 
 import java.nio.file.Paths;
 
-public class Main {
-    public static void main(String[] args) {
+public class Runner {
+    public AppConfig run(String[] args) {
         AppConfig config = new AppConfig();
-
+        System.out.println("Running...");
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
-                case "-0":
+                case "-o":
                     if (i + 1 < args.length) {
-                        config.setOutputDirection(Paths.get(args[i++]));
+                        config.setOutputDirection(Paths.get(args[i + 1]));
+                        i++;
                     } else {
-                        System.err.println("Error: missing output direction");
+                        throw new IllegalArgumentException("Missing output directory");
                     }
                     break;
 
                 case "-p":
                     if (i + 1 < args.length) {
-                        config.setPrefix(args[i++]);
+                        config.setPrefix(args[i+1]);
+                        i++;
                     } else {
-                        System.err.println("Error: missing prefix");
+                        throw new IllegalArgumentException("Missing prefix after -p");
                     }
                     break;
 
@@ -41,17 +46,17 @@ public class Main {
                     if(!args[i].startsWith("-")) {
                         config.addInputFile(Paths.get(args[i]));
                     } else {
-                        System.err.println("Error: unknown option: " + args[i]);
+                        throw new IllegalArgumentException("Unknown option: " + args[i]);
                     }
             }
         }
 
         if(config.getInputFiles().isEmpty()) {
-            System.err.println("Error: no input files specified");
+            throw new IllegalArgumentException("No input files specified");
         }
-
+        FilterService filterService = new FilterService();
+        filterService.run(config);
+        return config;
 
     }
-
-
 }

@@ -1,22 +1,31 @@
 package service;
 
 import config.AppConfig;
-import io.FIleLineReader;
+import io.FileLineReader;
+import io.output.FileWriter;
+import model.DataBucket;
+import model.StatsMode;
+import stats.Statistics;
 import util.DataClassifier;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class FilterService {
-
-
     public void run(AppConfig config) {
-        FIleLineReader reader = new FIleLineReader(config.getInputFiles());
-        ArrayList<String> lines = (ArrayList<String>) reader.read();
+        FileLineReader reader = new FileLineReader();
+        ArrayList<String> lines = (ArrayList<String>) reader.read(config.getInputFiles());
 
         DataClassifier classifier = new DataClassifier(lines);
+        DataBucket classifiedData = classifier.classify();
+        FileWriter writer = new FileWriter(config.getOutputDirection(), config.getPrefix());
+        writer.write(classifiedData);
+        Statistics statistics = new Statistics(classifiedData);
 
-
-
+        if(config.getStatsMode() == StatsMode.FULL){
+            System.out.println(statistics.getFullStatistics().toString());
+        } else {
+            System.out.println(statistics.getShortStatistics().toString());
+        }
     }
 }

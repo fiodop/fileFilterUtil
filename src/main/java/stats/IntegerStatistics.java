@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 @Data
 public class IntegerStatistics {
-    private int counter;
+    private int counter = 0;
     private int max = Integer.MIN_VALUE;
     private int min = Integer.MAX_VALUE;
     private long sum = 0L;
