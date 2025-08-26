@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 public class Runner {
     public AppConfig run(String[] args) {
         AppConfig config = new AppConfig();
-        System.out.println("Running...");
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "-o":
