@@ -16,6 +16,7 @@ public class DataClassifier {
             String notClassifiedLine = data.get(i);
             try {
                 int parsedLine = Integer.parseInt(notClassifiedLine);
+                System.out.println("dataBucket == null? " + (dataBucket == null));
                 dataBucket.addToIntegerList(parsedLine);
 
             } catch (NumberFormatException e) {
