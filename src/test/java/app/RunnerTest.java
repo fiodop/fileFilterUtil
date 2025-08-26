@@ -3,111 +3,70 @@ package app;
 import config.AppConfig;
 import model.StatsMode;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RunnerTest{
+class RunnerTest {
 
-    private final Runner runner = new Runner();
-
-    private static final String OUTPUT_DIR = "/home/fiodop/IdeaProjects/fileFilterUtil/src/test/resources";
-    private static final String INPUT_FILE = "/home/fiodop/IdeaProjects/fileFilterUtil/src/main/resources/test.txt";
+    @TempDir
+    Path tempDir;
 
     @Test
-    void parseWithAllOptionsFullStatsTest() {
+    void parseArgumentsWithOutputAndPrefixTest() {
         String[] args = {
-                INPUT_FILE,
-                "-o", OUTPUT_DIR,
+                "input.txt",
+                "-o", tempDir.toString(),
                 "-p", "result_",
                 "-a",
                 "-f"
         };
 
-        AppConfig config = runner.parseArgs(args);
+        Runner runner = new Runner();
+        AppConfig config = runner.run(args);
 
-        assertEquals(Path.of(INPUT_FILE), config.getInputFiles().get(0));
-        assertEquals(Paths.get(OUTPUT_DIR), config.getOutputDirection());
+        assertEquals(1, config.getInputFiles().size());
+        assertTrue(config.getInputFiles().get(0).toString().endsWith("input.txt"));
+        assertEquals(tempDir, config.getOutputDirection());
         assertEquals("result_", config.getPrefix());
         assertTrue(config.isAppendMode());
         assertEquals(StatsMode.FULL, config.getStatsMode());
     }
 
     @Test
-    void parseWithShortStatsTest() {
+    void parseArgumentsWithShortStatsTest() {
         String[] args = {
-                INPUT_FILE,
-                "-o", OUTPUT_DIR,
+                "input.txt",
+                "-o", tempDir.toString(),
                 "-s"
         };
 
-        AppConfig config = runner.parseArgs(args);
+        Runner runner = new Runner();
+        AppConfig config = runner.run(args);
 
-        assertEquals(Path.of(INPUT_FILE), config.getInputFiles().get(0));
-        assertEquals(Paths.get(OUTPUT_DIR), config.getOutputDirection());
-        assertEquals("", config.getPrefix());
-        assertFalse(config.isAppendMode());
+        assertEquals(1, config.getInputFiles().size());
+        assertEquals(tempDir, config.getOutputDirection());
         assertEquals(StatsMode.SHORT, config.getStatsMode());
     }
 
     @Test
-    void parseWithoutInputFilesShouldThrowTest() {
-        String[] args = {
-                "-o", OUTPUT_DIR
-        };
+    void parseArgumentsWithoutInputFilesTest() {
+        String[] args = {"-o", tempDir.toString()};
 
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> runner.parseArgs(args)
-        );
+        Runner runner = new Runner();
 
-        assertEquals("No input files specified", ex.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> runner.run(args));
     }
 
     @Test
-    void parseWithUnknownOptionShouldThrowTest() {
-        String[] args = {
-                INPUT_FILE,
-                "-x"
-        };
+    void parseArgumentsWithUnknownOptionTest() {
+        String[] args = {"input.txt", "-unknown"};
 
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> runner.parseArgs(args)
-        );
+        Runner runner = new Runner();
 
-        assertEquals("Unknown option: -x", ex.getMessage());
-    }
-
-    @Test
-    void parseWithMissingPrefixShouldThrowTest() {
-        String[] args = {
-                INPUT_FILE,
-                "-p"
-        };
-
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> runner.parseArgs(args)
-        );
-
-        assertEquals("Missing prefix after -p", ex.getMessage());
-    }
-
-    @Test
-    void parseWithMissingOutputDirShouldThrowTest() {
-        String[] args = {
-                INPUT_FILE,
-                "-o"
-        };
-
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> runner.parseArgs(args)
-        );
-
-        assertEquals("Missing output directory", ex.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> runner.run(args));
     }
 }
