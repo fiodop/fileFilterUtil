@@ -26,7 +26,7 @@ class RunnerTest {
         };
 
         Runner runner = new Runner();
-        AppConfig config = runner.run(args);
+        AppConfig config = runner.parseArgs(args);
 
         assertEquals(1, config.getInputFiles().size());
         assertTrue(config.getInputFiles().get(0).toString().endsWith("input.txt"));
@@ -45,7 +45,7 @@ class RunnerTest {
         };
 
         Runner runner = new Runner();
-        AppConfig config = runner.run(args);
+        AppConfig config = runner.parseArgs(args);
 
         assertEquals(1, config.getInputFiles().size());
         assertEquals(tempDir, config.getOutputDirection());

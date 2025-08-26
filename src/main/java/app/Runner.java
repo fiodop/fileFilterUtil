@@ -2,6 +2,7 @@ package app;
 
 import config.AppConfig;
 import model.StatsMode;
+import service.FilterService;
 
 import java.nio.file.Paths;
 
@@ -56,8 +57,8 @@ public class Runner {
         return config;
     }
 
-    public AppConfig run(String[] args) {
-        AppConfig config = parseArgs(args);
-        return config;
+    public void run(String[] args) {
+        FilterService service = new FilterService();
+        service.run(parseArgs(args));
     }
 }
