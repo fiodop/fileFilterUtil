@@ -9,10 +9,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class DataClassifier {
-    private final List<String> data;
-    private final DataBucket dataBucket = new DataBucket();
 
-    public DataBucket classify() {
+    public DataBucket classify(List<String> data) {
+        DataBucket dataBucket = new DataBucket();
         for (int i = 0; i < data.size(); i++) {
             String notClassifiedLine = data.get(i);
             try {

@@ -10,12 +10,13 @@ import java.util.HashMap;
 @Data
 public class Statistics {
     private DataBucket dataBucket;
-    private IntegerStatistics integerStatistics = new IntegerStatistics();
-    private FloatStatistics floatStatistics = new FloatStatistics();
-    private StringStatistics stringStatistics = new StringStatistics();
+    IntegerStatistics integerStatistics;
+    FloatStatistics floatStatistics;
+    StringStatistics stringStatistics;
 
     public Statistics(DataBucket dataBucket) {
         this.dataBucket = dataBucket;
+
     }
 
     /**
@@ -24,6 +25,10 @@ public class Statistics {
      */
     public HashMap<DataType, Integer> getShortStatistics(){
         HashMap<DataType, Integer> statistics = new HashMap<>();
+        IntegerStatistics integerStatistics = dataBucket.getIntegerStatistics();
+        FloatStatistics floatStatistics = dataBucket.getFloatStatistics();
+        StringStatistics stringStatistics = dataBucket.getStringStatistics();
+
         statistics.put(DataType.INTEGER, integerStatistics.getCounter());
         statistics.put(DataType.FLOAT, floatStatistics.getCounter());
         statistics.put(DataType.STRING, stringStatistics.getCounter());
@@ -37,6 +42,9 @@ public class Statistics {
      */
     public HashMap<DataType, HashMap<String, Object>> getFullStatistics(){
         HashMap<DataType, HashMap<String, Object>> statistics = new HashMap<>();
+        IntegerStatistics integerStatistics = dataBucket.getIntegerStatistics();
+        FloatStatistics floatStatistics = dataBucket.getFloatStatistics();
+        StringStatistics stringStatistics = dataBucket.getStringStatistics();
 
         HashMap<String, Object> stringStatisticsMap = stringStatistics.getFullStats();
         statistics.put(DataType.STRING, stringStatisticsMap);

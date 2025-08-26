@@ -22,7 +22,7 @@ public class FilterServiceTest {
         config.setInputFiles(list);
         config.setOutputDirection(Paths.get("C:\\Users\\artem\\IdeaProjects\\fileFilterUtil\\src\\test\\resources"));
         FilterService filterService = new FilterService();
-        config.setPrefix("allah-");
+        config.setPrefix("test-");
         config.setStatsMode(StatsMode.FULL);
         config.setAppendMode(true);
         filterService.run(config);

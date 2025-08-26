@@ -16,8 +16,8 @@ public class FilterService {
         FileLineReader reader = new FileLineReader();
         ArrayList<String> lines = (ArrayList<String>) reader.read(config.getInputFiles());
 
-        DataClassifier classifier = new DataClassifier(lines);
-        DataBucket classifiedData = classifier.classify();
+        DataClassifier classifier = new DataClassifier();
+        DataBucket classifiedData = classifier.classify(lines);
         FileWriter writer = new FileWriter(config.getOutputDirection(), config.getPrefix());
         writer.write(classifiedData);
         Statistics statistics = new Statistics(classifiedData);

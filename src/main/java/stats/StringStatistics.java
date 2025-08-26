@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class StringStatistics {
     private int counter = 0;
     private int maxSize = 0;
-    private int minSize = 0;
+    private int minSize = Integer.MAX_VALUE;
 
     public void addValue(String string) {
         counter++;
