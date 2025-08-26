@@ -14,7 +14,7 @@ public class FilterServiceTest {
     @Test
     public void runTest(){
         AppConfig config = new AppConfig();
-        Path path = Paths.get("src/test/resources/test.txt");
+        Path path = Paths.get("src/main/resources/test.txt");
         ArrayList<Path> list = new ArrayList<>();
         list.add(path);
         config.setInputFiles(list);
