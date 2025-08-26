@@ -1,28 +1,41 @@
 package service;
 
-import app.Runner;
 import config.AppConfig;
 import model.StatsMode;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
-public class FilterServiceTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class FilterServiceTest {
+
+    @TempDir
+    Path tempDir;
 
     @Test
-    public void runTest(){
+    void runTest() {
         AppConfig config = new AppConfig();
-        Path path = Paths.get("src/main/resources/test.txt");
-        ArrayList<Path> list = new ArrayList<>();
-        list.add(path);
-        config.setInputFiles(list);
-        config.setOutputDirection(Paths.get("src/test/resources"));
-        FilterService filterService = new FilterService();
+
+        Path inputFile = Paths.get("src/main/resources/test.txt");
+        config.addInputFile(inputFile);
+
+        config.setOutputDirection(tempDir);
         config.setPrefix("test-");
         config.setStatsMode(StatsMode.FULL);
         config.setAppendMode(true);
+
+        FilterService filterService = new FilterService();
         filterService.run(config);
+
+        assertTrue(tempDir.resolve("test_integers.txt").toFile().exists() ||
+                tempDir.resolve("test_integers.txt").toFile().length() == 0);
+        assertTrue(tempDir.resolve("test_floats.txt").toFile().exists() ||
+                tempDir.resolve("test_floats.txt").toFile().length() == 0);
+        assertTrue(tempDir.resolve("test_strings.txt").toFile().exists() ||
+                tempDir.resolve("test_strings.txt").toFile().length() == 0);
+
     }
 }
