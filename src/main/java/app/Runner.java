@@ -2,12 +2,12 @@ package app;
 
 import config.AppConfig;
 import model.StatsMode;
-import service.FilterService;
 
 import java.nio.file.Paths;
 
 public class Runner {
-    public AppConfig run(String[] args) {
+
+    public AppConfig parseArgs(String[] args) {
         AppConfig config = new AppConfig();
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
@@ -53,9 +53,11 @@ public class Runner {
         if(config.getInputFiles().isEmpty()) {
             throw new IllegalArgumentException("No input files specified");
         }
-        FilterService filterService = new FilterService();
-        filterService.run(config);
         return config;
+    }
 
+    public AppConfig run(String[] args) {
+        AppConfig config = parseArgs(args);
+        return config;
     }
 }
